@@ -1,6 +1,9 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#define WORLD_MUSIC_FILE_PATH "./ressources/audio/Brinstar.ogg"
+
+
 class Scene;
 
 class Game

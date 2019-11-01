@@ -25,6 +25,14 @@ Player::Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &pos
                                                                                          canJump(true)
 
 {
+    assert(jumpSoundBuff.loadFromFile(JUMP_SOUND_FILE_PATH));
+    assert(beamSoundBuff.loadFromFile(BEAM_SOUND_FILE_PATH));
+    assert(landSoundBuff.loadFromFile(LAND_SOUND_FILE_PATH));
+
+    jumpSound = sf::Sound(jumpSoundBuff);
+    jumpSound.setLoop(true);
+    beamSound = sf::Sound(beamSoundBuff);
+    landSound = sf::Sound(landSoundBuff);
 
     animationRunLeft.setSpriteSheet(texture);
     animationRunLeft.addFrame(sf::IntRect(464, 300, 38, 40));
@@ -158,6 +166,7 @@ void Player::startJump()
         canFire = false;
         isJumping = true;
         jumpProgress = jumpHeight;
+        jumpSound.play();
     }
 }
 
@@ -189,13 +198,16 @@ void Player::landing(const sf::Vector2f &movement)
         {
             isJumping = false;
             canFire = true;
+            jumpSound.stop();
+            landSound.play();
         }
         jumpProgress = 0.f;
     }
-    else if (movement.y > 0)
+    else if (movement.y > 0 && !isJumping)
     {
         isJumping = true;
         jumpProgress = 0.f;
+        jumpSound.play();
     }
 }
 
@@ -214,6 +226,7 @@ void Player::checkFire(const sf::Time &deltaTime)
 
             pos.y += 10.f;
             parentScene.addBeamShot(pos, facingRight);
+            beamSound.play();
         }
     }
     else

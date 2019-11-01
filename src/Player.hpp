@@ -1,6 +1,11 @@
 #ifndef PLAYER_HPP
 #define PLAYER_HPP
 
+#define JUMP_SOUND_FILE_PATH "./ressources/audio/jump.wav"
+#define BEAM_SOUND_FILE_PATH "./ressources/audio/beam.wav"
+#define LAND_SOUND_FILE_PATH "./ressources/audio/land.wav"
+
+#include <SFML/Audio/SoundBuffer.hpp>
 #include "AnimatedSprite.hpp"
 #include "Animation.hpp"
 
@@ -23,6 +28,13 @@ private:
     Animation animationRunRight;
     Animation animationJumpLeft;
     Animation animationJumpRight;
+
+    sf::Sound jumpSound;
+    sf::SoundBuffer jumpSoundBuff;
+    sf::Sound beamSound;
+    sf::SoundBuffer beamSoundBuff;
+    sf::Sound landSound;
+    sf::SoundBuffer landSoundBuff;
 
     bool facingRight;
 

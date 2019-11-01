@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio/Music.hpp>
 #include <iostream>
 #include "TileMap.hpp"
 #include "AnimatedSprite.hpp"
@@ -7,6 +8,7 @@
 #include "Scene.hpp"
 #include "Game.hpp"
 #include "Icon.hpp"
+#include <cassert>
 
 using namespace std;
 
@@ -22,6 +24,10 @@ Game::Game() : window(sf::VideoMode(1200, 675), sf::String(L"SFMetroid")),
 void Game::run()
 {
     sf::Clock frameClock;
+    sf::Music music;
+    assert(music.openFromFile(WORLD_MUSIC_FILE_PATH));
+    music.setLoop(true);
+    music.play();
     while (window.isOpen())
     {
         frameAverage(frameClock.restart());
