@@ -134,18 +134,29 @@ void Scene::changeLevel(int trigger)
     {
     case -2:
         level = 2;
-        pos = std::move(sf::Vector2f(52.f, 550.f));
+        pos = std::move(sf::Vector2f(45.f, 710.f));
         break;
-
+    case -3:
+        level = 1;
+        pos = std::move(sf::Vector2f(580.f, 300.f));
+        break;
     default:
         level = 1;
-        pos = std::move(sf::Vector2f(320.f, 260.f));
+        pos = std::move(sf::Vector2f(320.f, 300.f));
         zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(300.f, 300.f)));
         break;
     }
     tileMap.loadLevel(level);
     player.setPosition(pos);
-    pos.x += 20.f;
-    pos.y -= 20.f;
+
+    //Move camera
+    float halfX = mainView.getSize().x / 2.f;
+
+    if (pos.x < halfX)
+        pos.x = halfX;
+    else
+
+        pos.x = tileMap.mapPixelSize.x - halfX;
+
     mainView.setCenter(pos);
 }
