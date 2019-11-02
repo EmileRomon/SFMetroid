@@ -2,7 +2,7 @@
 #define GAME_HPP
 
 #define WORLD_MUSIC_FILE_PATH "./ressources/audio/Brinstar.ogg"
-
+#define FRAME_RATE 1.f / 60.f
 
 class Scene;
 

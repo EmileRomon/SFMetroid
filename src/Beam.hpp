@@ -26,6 +26,7 @@ private:
     sf::FloatRect collisionBounds;
     bool goingRight;
     float traveled;
+    const sf::Color beamColor = sf::Color(248, 160, 8);
 
 public:
     Beam(const Scene &scene, sf::Vector2f position, sf::Texture &texture, bool goingRight);

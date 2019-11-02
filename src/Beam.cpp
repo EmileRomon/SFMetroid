@@ -22,6 +22,7 @@ Beam::Beam(const Scene &scene, sf::Vector2f position, sf::Texture &texture, bool
         animation.addFrame(sf::IntRect(300, 1456, 16, 8));
     }
     sprite.setAnimation(animation);
+    sprite.setColor(beamColor);
 }
 
 void Beam::draw(sf::RenderTarget &target, sf::RenderStates states) const

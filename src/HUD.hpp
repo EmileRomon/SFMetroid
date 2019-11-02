@@ -16,6 +16,8 @@ private:
     sf::Time displayRate = sf::seconds(0.1);
     sf::Font font;
 
+    sf::Text healthDisplay;
+
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
@@ -24,7 +26,8 @@ public:
     ~HUD(){};
 
     void update(const sf::Time &frameTime);
-    virtual void setPosition(float x, float y);
+    virtual void setPosition(const float x, const float y);
+    void sethealth(const int health);
 };
 
 #endif

@@ -15,14 +15,18 @@ Player::Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &pos
                                                                                          collisionBounds(0.f, 0.f, 13.0f, 30.0f),
                                                                                          canFire(true),
                                                                                          fireCountdown(sf::Time::Zero),
-                                                                                         fireRate(sf::seconds(0.3f)),
+                                                                                         fireRate(sf::seconds(0.6f)),
+                                                                                         invincibilityCountdown(sf::Time::Zero),
+                                                                                         invincibilityTime(sf::seconds(1.5f)),
                                                                                          leftPressed(false),
                                                                                          rightPressed(false),
                                                                                          downPressed(false),
                                                                                          jumpPressed(false),
                                                                                          firePressed(false),
                                                                                          isJumping(false),
-                                                                                         canJump(true)
+                                                                                         canJump(true),
+                                                                                         isDamaged(false),
+                                                                                         health(99)
 
 {
     assert(jumpSoundBuff.loadFromFile(JUMP_SOUND_FILE_PATH));
@@ -123,7 +127,9 @@ void Player::update(const sf::Time &deltaTime)
         movement.x += 100.f;
 
     if (firePressed)
-        checkFire(deltaTime);
+        checkFire();
+    fireCountdown -= deltaTime;
+    invincibilityCountdown -= deltaTime;
 
     if (isJumping)
     {
@@ -211,7 +217,7 @@ void Player::landing(const sf::Vector2f &movement)
     }
 }
 
-void Player::checkFire(const sf::Time &deltaTime)
+void Player::checkFire()
 {
     if (fireCountdown <= sf::Time::Zero)
     {
@@ -229,11 +235,20 @@ void Player::checkFire(const sf::Time &deltaTime)
             beamSound.play();
         }
     }
-    else
-        fireCountdown -= deltaTime;
 }
 
 void Player::setPosition(sf::Vector2f &position)
 {
     sprite.setPosition(position);
+}
+
+void Player::dealDamage(int damageTaken)
+{
+    if (invincibilityCountdown <= sf::Time::Zero)
+    {
+        invincibilityCountdown = invincibilityTime;
+        isDamaged = true;
+        health -= damageTaken;
+        std::cout << "outch : " << health << std::endl;
+    }
 }

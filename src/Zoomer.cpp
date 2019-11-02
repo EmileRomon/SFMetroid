@@ -5,7 +5,7 @@
 
 Zoomer::Zoomer(const sf::Texture &texture, const sf::Vector2f &position) : bodySprite(sf::seconds(0.5f)),
                                                                            collisionBounds(0.f, 0.f, 16.f, 16.f),
-                                                                           speed(100.f, 0.f)
+                                                                           speed(50.f, 0.f)
 {
     animationBody.setSpriteSheet(texture);
     animationBody.addFrame(sf::IntRect(186, 10, 23, 16));

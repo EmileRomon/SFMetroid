@@ -19,6 +19,9 @@ Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector
     assert(playerTexture.loadFromFile(PLAYER_TEXTURE_FILE_PATH));
     assert(font.loadFromFile(HUD_FONT));
     assert(enemiesTexture.loadFromFile(ENEMIES_TEXTURE_FILE_PATH));
+    /*mapTexture.setSmooth(true);
+    playerTexture.setSmooth(true);
+    enemiesTexture.setSmooth(true);*/
     hud = HUD(font);
     changeLevel(0);
 
@@ -67,6 +70,39 @@ void Scene::update(const sf::Time &frameTime)
 {
     sf::Vector2f pMove;
     int trigger = 0;
+
+    //Update Beam list
+    for (auto it = beamList.begin(); it != beamList.end(); ++it)
+    {
+        it->update(frameTime);
+        pMove = it->movement * frameTime.asSeconds();
+        if (tileMap.computeCollision(it->getGlobalBounds(), pMove, trigger) || !it->move(pMove))
+            it = beamList.erase(it);
+    }
+
+    trigger = 0;
+
+    //Update Zoomer list
+    for (auto it = zList.begin(); it != zList.end(); ++it)
+    {
+        sf::FloatRect bounds = it->getGlobalBounds();
+        it->update(frameTime);
+        pMove = it->movement * frameTime.asSeconds();
+        it->move(pMove);
+        for (auto b = beamList.begin(); b != beamList.end(); ++b)
+        {
+            if (bounds.intersects(b->getGlobalBounds()))
+            {
+                it = zList.erase(it);
+                b = beamList.erase(b);
+            }
+        }
+        if (bounds.intersects(player.getGlobalBounds()))
+        {
+            player.dealDamage(16.f);
+        }
+    }
+
     player.update(frameTime);
 
     //Update player position
@@ -95,23 +131,8 @@ void Scene::update(const sf::Time &frameTime)
         mainView.setCenter(center);
     }
 
-    //Update Beam list
-    for (auto it = beamList.begin(); it != beamList.end(); ++it)
-    {
-        it->update(frameTime);
-        pMove = it->movement * frameTime.asSeconds();
-        if (tileMap.computeCollision(it->getGlobalBounds(), pMove, trigger) || !it->move(pMove))
-            it = beamList.erase(it);
-    }
-
-    //Update Zoomer list
-    for (auto it = zList.begin(); it != zList.end(); ++it)
-    {
-        it->update(frameTime);
-        pMove = it->movement * frameTime.asSeconds();
-        it->move(pMove);
-    }
-
+    if (player.isDamaged)
+        hud.sethealth(player.health);
     hud.update(frameTime);
     hud.setPosition(mainView.getCenter().x + 155.f, mainView.getCenter().y - 90.f);
     parentWindow.setView(mainView);

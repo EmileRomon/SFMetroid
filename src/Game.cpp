@@ -14,7 +14,7 @@ using namespace std;
 
 Game::Game() : window(sf::VideoMode(1200, 675), sf::String(L"SFMetroid")),
                scene(window),
-               deltaTime((1.f / 60.f))
+               deltaTime(FRAME_RATE)
 {
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(60);

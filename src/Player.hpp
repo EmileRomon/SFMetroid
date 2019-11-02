@@ -19,7 +19,7 @@ private:
 
     void startJump();
 
-    void checkFire(const sf::Time &deltaTime);
+    void checkFire();
 
     Scene &parentScene;
 
@@ -44,6 +44,8 @@ private:
     bool canFire;
     sf::Time fireCountdown;
     const sf::Time fireRate;
+    sf::Time invincibilityCountdown;
+    const sf::Time invincibilityTime;
 
 public:
     Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &position);
@@ -60,6 +62,8 @@ public:
 
     void setPosition(sf::Vector2f &position);
 
+    void dealDamage(int damageTaken);
+
     //Keys flags
     bool leftPressed;
     bool rightPressed;
@@ -69,6 +73,10 @@ public:
 
     bool isJumping;
     bool canJump;
+
+    bool isDamaged;
+
+    int health;
 
     sf::Vector2f movement;
 
