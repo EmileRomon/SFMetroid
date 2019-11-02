@@ -46,6 +46,7 @@ private:
     const sf::Time fireRate;
     sf::Time invincibilityCountdown;
     const sf::Time invincibilityTime;
+    const sf::Time knockbackDelay;
 
 public:
     Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &position);

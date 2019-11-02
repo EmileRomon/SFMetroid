@@ -164,7 +164,7 @@ void Scene::changeLevel(int trigger)
     default:
         level = 1;
         pos = std::move(sf::Vector2f(320.f, 300.f));
-        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(300.f, 300.f)));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(384.f, 128.f), 88));
         break;
     }
     tileMap.loadLevel(level);

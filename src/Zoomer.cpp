@@ -3,9 +3,9 @@
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <iostream>
 
-Zoomer::Zoomer(const sf::Texture &texture, const sf::Vector2f &position) : bodySprite(sf::seconds(0.5f)),
-                                                                           collisionBounds(0.f, 0.f, 16.f, 16.f),
-                                                                           speed(50.f, 0.f)
+Zoomer::Zoomer(const sf::Texture &texture, const sf::Vector2f &position, const float limitRange) : bodySprite(sf::seconds(0.5f)),
+                                                                                                   collisionBounds(0.f, 0.f, 16.f, 16.f),
+                                                                                                   speed(50.f, 0.f)
 {
     animationBody.setSpriteSheet(texture);
     animationBody.addFrame(sf::IntRect(186, 10, 23, 16));
@@ -16,8 +16,8 @@ Zoomer::Zoomer(const sf::Texture &texture, const sf::Vector2f &position) : bodyS
 
     bodySprite.setPosition(position);
 
-    leftLimit = position.x - 50.f;
-    rightLimit = position.x + 50;
+    leftLimit = position.x - limitRange;
+    rightLimit = position.x + limitRange;
     movement.x = speed.x;
 }
 

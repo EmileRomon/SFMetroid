@@ -18,6 +18,7 @@ Player::Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &pos
                                                                                          fireRate(sf::seconds(0.6f)),
                                                                                          invincibilityCountdown(sf::Time::Zero),
                                                                                          invincibilityTime(sf::seconds(1.5f)),
+                                                                                         knockbackDelay(sf::seconds(1.3f)),
                                                                                          leftPressed(false),
                                                                                          rightPressed(false),
                                                                                          downPressed(false),
@@ -96,15 +97,35 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite);
     //debug
-    sf::RectangleShape s;
+    /*sf::RectangleShape s;
     s = sf::RectangleShape(sf::Vector2f(collisionBounds.width, collisionBounds.height));
     s.setFillColor(sf::Color::Red);
     s.setPosition(collisionBounds.left, collisionBounds.top);
-    //target.draw(s);
+    target.draw(s);*/
 }
 
 void Player::update(const sf::Time &deltaTime)
 {
+    fireCountdown -= deltaTime;
+    invincibilityCountdown -= deltaTime;
+
+    sprite.update(deltaTime);
+
+    if (isDamaged)
+    {
+        if (invincibilityCountdown <= knockbackDelay)
+        {
+            isDamaged = false;
+            movement.x = -movement.x;
+        }
+        else
+        {
+            movement.x = facingRight ? -50.f : 50.f;
+            movement.y = -150.f;
+            return;
+        }
+    }
+
     if (movement.x != 0.f)
         facingRight = movement.x > 0.f;
     movement.x = movement.y = 0.f;
@@ -128,8 +149,6 @@ void Player::update(const sf::Time &deltaTime)
 
     if (firePressed)
         checkFire();
-    fireCountdown -= deltaTime;
-    invincibilityCountdown -= deltaTime;
 
     if (isJumping)
     {
@@ -161,8 +180,6 @@ void Player::update(const sf::Time &deltaTime)
         else
             sprite.stop();
     }
-
-    sprite.update(deltaTime);
 }
 
 void Player::startJump()

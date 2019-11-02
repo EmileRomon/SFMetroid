@@ -21,7 +21,7 @@ private:
     float rightLimit;
 
 public:
-    Zoomer(const sf::Texture &texture, const sf::Vector2f &position);
+    Zoomer(const sf::Texture &texture, const sf::Vector2f &position, const float limitRange);
     ~Zoomer(){};
 
     void update(const sf::Time &deltaTime);
