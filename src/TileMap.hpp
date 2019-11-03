@@ -29,6 +29,8 @@ private:
     static const int levelc1[];
     static const int level2[];
     static const int levelc2[];
+    static const int level3[];
+    static const int levelc3[];
 
 public:
     TileMap(sf::Texture &tileset);
