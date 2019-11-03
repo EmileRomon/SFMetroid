@@ -17,7 +17,7 @@ Game::Game() : window(sf::VideoMode(1200, 675), sf::String(L"SFMetroid")),
                deltaTime(FRAME_RATE)
 {
     window.setVerticalSyncEnabled(true);
-    window.setFramerateLimit(60);
+    //window.setFramerateLimit(60);
     window.setIcon(game_icon.width, game_icon.height, game_icon.pixel_data);
 }
 
@@ -31,7 +31,21 @@ void Game::run()
     while (window.isOpen())
     {
         frameAverage(frameClock.restart());
-        processEvents();
+
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+            if (event.key.code == sf::Keyboard::R)
+            {
+                scene.reset();
+                music.stop();
+                music.play();
+                deltaTime = FRAME_RATE;
+            }
+            scene.handleEvent(event);
+        }
         //while(frameTime > timePerFrame) {
         //std::cout << (int)(1.f/frameTime.asSeconds()) << std::endl;
         //frameTime -= timePerFrame;
@@ -39,17 +53,6 @@ void Game::run()
         update(sf::seconds(deltaTime));
         //}
         render();
-    }
-}
-
-void Game::processEvents()
-{
-    sf::Event event;
-    while (window.pollEvent(event))
-    {
-        if (event.type == sf::Event::Closed)
-            window.close();
-        scene.handleEvent(event);
     }
 }
 

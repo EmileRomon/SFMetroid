@@ -4,6 +4,7 @@
 #define JUMP_SOUND_FILE_PATH "./ressources/audio/jump.wav"
 #define BEAM_SOUND_FILE_PATH "./ressources/audio/beam.wav"
 #define LAND_SOUND_FILE_PATH "./ressources/audio/land.wav"
+#define HURT_SOUND_FILE_PATH "./ressources/audio/hurt.ogg"
 
 #include <SFML/Audio/SoundBuffer.hpp>
 #include "AnimatedSprite.hpp"
@@ -35,6 +36,8 @@ private:
     sf::SoundBuffer beamSoundBuff;
     sf::Sound landSound;
     sf::SoundBuffer landSoundBuff;
+    sf::Sound hurtSound;
+    sf::SoundBuffer hurtSoundBuff;
 
     bool facingRight;
 
@@ -65,6 +68,8 @@ public:
 
     void dealDamage(int damageTaken);
 
+    void reset();
+
     //Keys flags
     bool leftPressed;
     bool rightPressed;
@@ -76,6 +81,7 @@ public:
     bool canJump;
 
     bool isDamaged;
+    bool isDead;
 
     int health;
 

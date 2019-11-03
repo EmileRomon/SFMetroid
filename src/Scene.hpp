@@ -35,6 +35,8 @@ private:
 	sf::Texture enemiesTexture;
 	HUD hud;
 	sf::Font font;
+	sf::Text gameOverText;
+	sf::Text restartText;
 
 public:
 	Scene(sf::RenderWindow &window);
@@ -49,6 +51,8 @@ public:
 	void addBeamShot(const sf::Vector2f &position, bool facingRight);
 
 	void changeLevel(int level);
+
+	void reset();
 };
 
 #endif

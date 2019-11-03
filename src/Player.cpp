@@ -27,17 +27,20 @@ Player::Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &pos
                                                                                          isJumping(false),
                                                                                          canJump(true),
                                                                                          isDamaged(false),
+                                                                                         isDead(false),
                                                                                          health(99)
 
 {
     assert(jumpSoundBuff.loadFromFile(JUMP_SOUND_FILE_PATH));
     assert(beamSoundBuff.loadFromFile(BEAM_SOUND_FILE_PATH));
     assert(landSoundBuff.loadFromFile(LAND_SOUND_FILE_PATH));
+    assert(hurtSoundBuff.loadFromFile(HURT_SOUND_FILE_PATH));
 
     jumpSound = sf::Sound(jumpSoundBuff);
     jumpSound.setLoop(true);
     beamSound = sf::Sound(beamSoundBuff);
     landSound = sf::Sound(landSoundBuff);
+    hurtSound = sf::Sound(hurtSoundBuff);
 
     animationRunLeft.setSpriteSheet(texture);
     animationRunLeft.addFrame(sf::IntRect(464, 300, 38, 40));
@@ -261,11 +264,38 @@ void Player::setPosition(sf::Vector2f &position)
 
 void Player::dealDamage(int damageTaken)
 {
-    if (invincibilityCountdown <= sf::Time::Zero)
+    if (invincibilityCountdown <= sf::Time::Zero && !isDead)
     {
+        hurtSound.play();
+        if (damageTaken > health)
+        {
+            health = 0;
+            isDead = true;
+            jumpSound.stop();
+            return;
+        }
         invincibilityCountdown = invincibilityTime;
         isDamaged = true;
         health -= damageTaken;
-        std::cout << "outch : " << health << std::endl;
     }
+}
+
+void Player::reset()
+{
+    facingRight = true;
+    canFire = true;
+    fireCountdown = sf::Time::Zero;
+    invincibilityCountdown = sf::Time::Zero;
+    leftPressed = false;
+    rightPressed = false;
+    downPressed = false;
+    jumpPressed = false;
+    firePressed = false;
+    isJumping = false;
+    canJump = true;
+    isDamaged = false;
+    isDead = false;
+    health = 99;
+    sprite.stop();
+    jumpSound.stop();
 }

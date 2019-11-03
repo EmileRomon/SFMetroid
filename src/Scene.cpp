@@ -13,7 +13,9 @@ Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector
                                          parentWindow(window),
                                          mainView(sf::Vector2f(0.f, 0.f), sf::Vector2f(320.f, 180.f)), //sf::Vector2f(384.f, 216.f)),
                                          beamList(),
-                                         zList()
+                                         zList(),
+                                         gameOverText("GAME OVER", font),
+                                         restartText("Press r to restart the game", font)
 {
     assert(mapTexture.loadFromFile(TILESET_FILE_PATH));
     assert(playerTexture.loadFromFile(PLAYER_TEXTURE_FILE_PATH));
@@ -22,6 +24,10 @@ Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector
     /*mapTexture.setSmooth(true);
     playerTexture.setSmooth(true);
     enemiesTexture.setSmooth(true);*/
+    gameOverText.setCharacterSize(30);
+    restartText.setCharacterSize(14);
+    gameOverText.setPosition(-120 , -30);
+    restartText.setPosition(-110 , 30);
     hud = HUD(font);
     changeLevel(0);
 
@@ -34,6 +40,11 @@ Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector
 
 void Scene::draw()
 {
+    if(player.isDead) {
+        parentWindow.draw(gameOverText);
+        parentWindow.draw(restartText);
+        return;
+    }
     parentWindow.draw(tileMap);
     parentWindow.draw(player);
     for (const Beam &b : beamList)
@@ -44,6 +55,7 @@ void Scene::draw()
     {
         parentWindow.draw(z);
     }
+
     parentWindow.draw(hud);
 }
 
@@ -68,6 +80,13 @@ void Scene::handleEvent(const sf::Event &evt)
 
 void Scene::update(const sf::Time &frameTime)
 {
+    if (player.isDead)
+    {
+        mainView.setCenter(0.f, 0.f);
+        parentWindow.setView(mainView);
+        return;
+    }
+
     sf::Vector2f pMove;
     int trigger = 0;
 
@@ -161,17 +180,47 @@ void Scene::changeLevel(int trigger)
         level = 1;
         pos = std::move(sf::Vector2f(580.f, 300.f));
         break;
+    case -4:
+        level = 3;
+        pos = std::move(sf::Vector2f(48.f, 55.f));
+        break;
+    case -5:
+        level = 3;
+        pos = std::move(sf::Vector2f(730.f, 230.f));
+        break;
+    case -6:
+        level = 2;
+        pos = std::move(sf::Vector2f(48.f, 110.f));
+        break;
+    case -7:
+        level = 2;
+        pos = std::move(sf::Vector2f(340.f, 90.f));
+        break;
     default:
         level = 1;
         pos = std::move(sf::Vector2f(320.f, 300.f));
+        break;
+    }
+
+    switch (level)
+    {
+    case 2:
+        break;
+
+    case 3:
+        break;
+
+    default:
         zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(384.f, 128.f), 88));
         break;
     }
+
     tileMap.loadLevel(level);
     player.setPosition(pos);
 
     //Move camera
     float halfX = mainView.getSize().x / 2.f;
+    float halfY = mainView.getSize().y / 2.f;
 
     if (pos.x < halfX)
         pos.x = halfX;
@@ -179,5 +228,23 @@ void Scene::changeLevel(int trigger)
 
         pos.x = tileMap.mapPixelSize.x - halfX;
 
+    if (pos.y < halfY)
+        pos.y = halfY;
+    else
+
+        pos.y = tileMap.mapPixelSize.y - halfY;
+
     mainView.setCenter(pos);
+}
+
+void Scene::reset()
+{
+    player.reset();
+    hud = HUD(font);
+    changeLevel(0);
+    sf::Vector2f center = player.getPosition();
+    center.x += 20.f;
+    center.y -= 20.f;
+    mainView.setCenter(center);
+    parentWindow.setView(mainView);
 }
