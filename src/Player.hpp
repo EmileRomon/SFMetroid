@@ -7,6 +7,7 @@
 #define HURT_SOUND_FILE_PATH "./ressources/audio/hurt.ogg"
 
 #include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/Audio/Sound.hpp>
 #include "AnimatedSprite.hpp"
 #include "Animation.hpp"
 

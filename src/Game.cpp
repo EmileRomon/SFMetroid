@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio/Music.hpp>
-#include <iostream>
 #include "TileMap.hpp"
 #include "AnimatedSprite.hpp"
 #include "Animation.hpp"
@@ -17,7 +16,7 @@ Game::Game() : window(sf::VideoMode(1200, 675), sf::String(L"SFMetroid")),
                deltaTime(FRAME_RATE)
 {
     window.setVerticalSyncEnabled(true);
-    //window.setFramerateLimit(60);
+    window.setFramerateLimit(65);
     window.setIcon(game_icon.width, game_icon.height, game_icon.pixel_data);
 }
 
@@ -46,12 +45,8 @@ void Game::run()
             }
             scene.handleEvent(event);
         }
-        //while(frameTime > timePerFrame) {
-        //std::cout << (int)(1.f/frameTime.asSeconds()) << std::endl;
-        //frameTime -= timePerFrame;
-        //processEvents();
+
         update(sf::seconds(deltaTime));
-        //}
         render();
     }
 }
@@ -71,7 +66,7 @@ void Game::render()
 void Game::frameAverage(const sf::Time &time)
 {
     float sec = time.asSeconds();
-    deltaTime += ((0.01) * (sec - deltaTime));
+    deltaTime += ((0.0125) * (sec - deltaTime));
 }
 
 int main()

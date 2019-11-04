@@ -1,17 +1,12 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
-#include <iostream>
 
-#include "Player.hpp"
-#include "TileMap.hpp"
-#include "Beam.hpp"
-#include "HUD.hpp"
 #include "Scene.hpp"
 
 Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector2f(320.f, 260.f)),
                                          tileMap(mapTexture),
                                          parentWindow(window),
-                                         mainView(sf::Vector2f(0.f, 0.f), sf::Vector2f(320.f, 180.f)), //sf::Vector2f(384.f, 216.f)),
+                                         mainView(sf::Vector2f(0.f, 0.f), sf::Vector2f(320.f, 180.f)),
                                          beamList(),
                                          zList(),
                                          gameOverText("GAME OVER", font),
@@ -21,13 +16,11 @@ Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector
     assert(playerTexture.loadFromFile(PLAYER_TEXTURE_FILE_PATH));
     assert(font.loadFromFile(HUD_FONT));
     assert(enemiesTexture.loadFromFile(ENEMIES_TEXTURE_FILE_PATH));
-    /*mapTexture.setSmooth(true);
-    playerTexture.setSmooth(true);
-    enemiesTexture.setSmooth(true);*/
+
     gameOverText.setCharacterSize(30);
     restartText.setCharacterSize(14);
-    gameOverText.setPosition(-120 , -30);
-    restartText.setPosition(-110 , 30);
+    gameOverText.setPosition(-120, -30);
+    restartText.setPosition(-110, 30);
     hud = HUD(font);
     changeLevel(0);
 
@@ -40,7 +33,8 @@ Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector
 
 void Scene::draw()
 {
-    if(player.isDead) {
+    if (player.isDead)
+    {
         parentWindow.draw(gameOverText);
         parentWindow.draw(restartText);
         return;
@@ -204,14 +198,27 @@ void Scene::changeLevel(int trigger)
 
     switch (level)
     {
+    case 1:
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(384.f, 128.f), 80));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(96.f, 320.f), 64));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(112.f, 240.f), 80));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(528.f, 304.f), 40));
+        break;
     case 2:
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(272.f, 720.f), 64));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(272.f, 528.f), 64));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(144.f, 496.f), 96));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(192.f, 352.f), 80));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(144.f, 128.f), 64));
         break;
 
     case 3:
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(192.f, 240.f), 64));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(432.f, 240.f), 64));
+        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(528.f, 128.f), 64));
         break;
 
     default:
-        zList.push_back(Zoomer(enemiesTexture, sf::Vector2f(384.f, 128.f), 88));
         break;
     }
 
@@ -225,13 +232,11 @@ void Scene::changeLevel(int trigger)
     if (pos.x < halfX)
         pos.x = halfX;
     else
-
         pos.x = tileMap.mapPixelSize.x - halfX;
 
     if (pos.y < halfY)
         pos.y = halfY;
     else
-
         pos.y = tileMap.mapPixelSize.y - halfY;
 
     mainView.setCenter(pos);

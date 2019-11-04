@@ -3,9 +3,7 @@
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
-
 #include <list>
-
 #include "Player.hpp"
 #include "TileMap.hpp"
 #include "Beam.hpp"

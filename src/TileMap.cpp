@@ -1,7 +1,5 @@
 #include "TileMap.hpp"
 
-#include <iostream>
-
 TileMap::TileMap(sf::Texture &tileset) : tileset(tileset), mapPixelSize(0, 0) {}
 
 void TileMap::loadLevel(const int level)

@@ -1,5 +1,4 @@
 #include "AnimatedSprite.hpp"
-#include <iostream>
 AnimatedSprite::AnimatedSprite(sf::Time frameTime, bool paused, bool looped) : animation(NULL),
                                                                                isPaused(paused),
                                                                                currentFrame(0),

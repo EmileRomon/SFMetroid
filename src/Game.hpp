@@ -22,7 +22,6 @@ private:
 public:
 	Game();
 	void run();
-	//const sf::Time timePerFrame = sf::seconds(1.f / 60.f);
 };
 
 #endif

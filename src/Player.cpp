@@ -1,10 +1,4 @@
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/Transformable.hpp>
-#include <SFML/System/Time.hpp>
-
 #include <cassert>
-#include <iostream>
-#include <SFML/Graphics/RectangleShape.hpp>
 
 #include "Player.hpp"
 #include "Scene.hpp"
@@ -92,19 +86,12 @@ Player::Player(Scene &scene, const sf::Texture &texture, const sf::Vector2f &pos
 
     sprite.setPosition(position);
     sprite.setAnimation(animationRunRight);
-    //sprite.setScale(sf::Vector2f(8.5f, 8.5f));
     sprite.stop();
 }
 
 void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(sprite);
-    //debug
-    /*sf::RectangleShape s;
-    s = sf::RectangleShape(sf::Vector2f(collisionBounds.width, collisionBounds.height));
-    s.setFillColor(sf::Color::Red);
-    s.setPosition(collisionBounds.left, collisionBounds.top);
-    target.draw(s);*/
 }
 
 void Player::update(const sf::Time &deltaTime)
@@ -144,7 +131,6 @@ void Player::update(const sf::Time &deltaTime)
     }
     else
         canJump = true;
-    //if(downPressed) down()
     if (leftPressed)
         movement.x -= 100.f;
     if (rightPressed)

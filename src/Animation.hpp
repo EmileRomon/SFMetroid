@@ -4,7 +4,6 @@
 #include <vector>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
-#include <SFML/Audio/Sound.hpp>
 
 class Animation
 {
@@ -23,7 +22,7 @@ public:
     const sf::IntRect &getFrame(int index) const;
 
     const sf::Texture *texture;
-    
+
 private:
     std::vector<sf::IntRect> frames;
 

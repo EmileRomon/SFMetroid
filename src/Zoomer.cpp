@@ -1,11 +1,8 @@
 #include "Zoomer.hpp"
 
-#include <SFML/Graphics/RectangleShape.hpp>
-#include <iostream>
-
 Zoomer::Zoomer(const sf::Texture &texture, const sf::Vector2f &position, const float limitRange) : bodySprite(sf::seconds(0.5f)),
                                                                                                    collisionBounds(0.f, 0.f, 16.f, 16.f),
-                                                                                                   speed(50.f, 0.f)
+                                                                                                   speed(105.f, 0.f)
 {
     animationBody.setSpriteSheet(texture);
     animationBody.addFrame(sf::IntRect(186, 10, 23, 16));
@@ -24,11 +21,6 @@ Zoomer::Zoomer(const sf::Texture &texture, const sf::Vector2f &position, const f
 void Zoomer::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     target.draw(bodySprite);
-    /*sf::RectangleShape s;
-    s = sf::RectangleShape(sf::Vector2f(collisionBounds.width, collisionBounds.height));
-    s.setFillColor(sf::Color::Red);
-    s.setPosition(collisionBounds.left, collisionBounds.top);
-    target.draw(s);*/
 }
 
 void Zoomer::update(const sf::Time &deltaTime)

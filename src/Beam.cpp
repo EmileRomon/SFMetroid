@@ -1,7 +1,5 @@
 #include "Beam.hpp"
 
-#include <iostream>
-
 Beam::Beam(const Scene &scene, sf::Vector2f position, sf::Texture &texture, bool goingRight) : parentScene(scene),
                                                                                                sprite(sf::seconds(0.05f), false, true),
                                                                                                collisionBounds(0.f, 0.f, 16.0f, 8.0f),
