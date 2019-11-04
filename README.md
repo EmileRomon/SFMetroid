@@ -7,10 +7,15 @@ The game is inspired by _Nitendo_'s saga _Metroid_ and is using assets from _Met
 # Controls
 
 _Q_ / _D_ : Move
+
 _Z_ : Jump
+
 _Space bar_ : Shoot
+
 _R_ : Reset the game
+
 _Escape_ : Exit the game
+
 
 # Build
 ```shell
