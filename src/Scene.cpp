@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <cassert>
-
 #include "Scene.hpp"
 
 Scene::Scene(sf::RenderWindow &window) : player(*this, playerTexture, sf::Vector2f(320.f, 260.f)),
@@ -188,7 +187,7 @@ void Scene::changeLevel(int trigger)
         break;
     case -7:
         level = 2;
-        pos = std::move(sf::Vector2f(340.f, 90.f));
+        pos = std::move(sf::Vector2f(340.f, 85.f));
         break;
     default:
         level = 1;
@@ -234,11 +233,12 @@ void Scene::changeLevel(int trigger)
     else
         pos.x = tileMap.mapPixelSize.x - halfX;
 
-    if (pos.y < halfY)
+    if (pos.y < halfY) {
         pos.y = halfY;
-    else
+    }
+    else {
         pos.y = tileMap.mapPixelSize.y - halfY;
-
+    }
     mainView.setCenter(pos);
 }
 
